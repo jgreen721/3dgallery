@@ -47,6 +47,36 @@
         cursor: pointer;
         border-radius: 0.5rem;
       }
+
+      .compass-btn {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: white;
+        text-shadow: 2px 2px 2px black;
+        font-weight: 200;
+        position: absolute;
+        z-index: 5;
+      }
+
+      .left-btn {
+        top: 45%;
+        left: 2%;
+      }
+
+      .right-btn {
+        top: 45%;
+        right: 2%;
+      }
+
+      .up-btn {
+        left: 45%;
+      }
+
+      .down-btn {
+        left: 45%;
+        bottom: 2%;
+      }
     </style>
     <title>~ 3d Portfolio Gallery ~</title>
   </head>
@@ -64,6 +94,10 @@
       </ul>
     </div>
     <button class="btn return-btn">RETURN</button>
+    <button class="left-btn compass-btn" data-direction="left">LEFT</button>
+    <button class="right-btn compass-btn" data-direction="right">RIGHT</button>
+    <button class="up-btn compass-btn" data-direction="up">UP</button>
+    <button class="down-btn compass-btn" data-direction="down">DOWN</button>
     <script type="module" src="js/domhandlings.js"></script>
     <script type="module" src="js/tweens.js"></script>
     <script type="module" src="js/paintings.js"></script>

@@ -43,3 +43,26 @@ export const returnUser = (camera) => {
         });
     });
 };
+
+export const changeDir = (direction, camera) => {
+  console.log("Direction", direction);
+  switch (direction) {
+    case "left":
+      camera.rotation.y += 0.05;
+      break;
+
+    case "right":
+      camera.rotation.y -= 0.05;
+      break;
+
+    case "up":
+      camera.rotation.x += 0.05;
+      camera.rotation.z -= 0.05;
+      break;
+
+    case "down":
+      camera.rotation.x -= 0.05;
+      camera.rotation.z += 0.05;
+      break;
+  }
+};
