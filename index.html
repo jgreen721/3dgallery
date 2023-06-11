@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+        color: white;
+      }
+
+      li {
+        list-style: none;
+      }
+
+      .info-card {
+        position: absolute;
+        color: white;
+        z-index: 5;
+        left: 5rem;
+        top: 5rem;
+        max-width: 30rem;
+        text-shadow: 2px 2px 2px black;
+      }
+
+      ul {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .info-card * {
+        margin: 1.5rem 0;
+      }
+    </style>
+    <title>~ 3d Portfolio Gallery ~</title>
+  </head>
+  <body>
+    <div class="info-card">
+      <h2 id="title">Welcome to the Gallery</h2>
+      <h5 id="description">
+        View and visit front-end design samples ranging from small components to
+        landing pages to fully sized sites!
+      </h5>
+      <ul id="features">
+        <li>Passion</li>
+        <li>Creativeness</li>
+        <li>Committment</li>
+      </ul>
+    </div>
+    <script type="module" src="js/paintings.js"></script>
+    <script type="module" src="js/walls.js"></script>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
