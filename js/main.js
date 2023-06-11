@@ -94,7 +94,13 @@ onresize = (e) => {
   renderer.setSize(innerWidth, innerHeight);
 };
 
-onclick = () => selectSample(camera, currFocusObject);
+onclick = (e) => {
+  if (e.target.classList.contains("return-btn")) {
+    returnUser(camera);
+  } else {
+    selectSample(camera, currFocusObject);
+  }
+};
 returnBtn.onclick = () => returnUser(camera);
 
 enterBuilding(camera);
