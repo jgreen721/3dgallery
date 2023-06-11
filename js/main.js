@@ -1,10 +1,12 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as TWEEN from "@tweenjs/tween.js";
 import { printWalls } from "./walls.js";
 import { printPaintings } from "./paintings.js";
 import { enterBuilding } from "./tweens";
-import { printInfo, selectSample } from "./domhandlings";
+import { printInfo, selectSample, returnUser } from "./domhandlings";
+const returnBtn = document.querySelector(".return-btn");
 
 // scene scaffolding -- renderer,scene,camera,lights
 const renderer = new THREE.WebGLRenderer();
@@ -39,8 +41,18 @@ spotLight.castShadow = true;
 printWalls(scene);
 printPaintings(scene);
 
-let oc = new OrbitControls(camera, renderer.domElement);
+// let oc = new OrbitControls(camera, renderer.domElement);
 // oc.update();
+
+let gltfLoader = new GLTFLoader();
+gltfLoader.load("./glbs/table.glb", (img) => {
+  scene.add(img.scene);
+  console.log(img);
+  img.scene.position.x = 145;
+  img.scene.position.z = -125;
+  img.scene.position.y = 5;
+  img.scene.scale.set(9, 9, 9);
+});
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -83,5 +95,6 @@ onresize = (e) => {
 };
 
 onclick = () => selectSample(camera, currFocusObject);
+returnBtn.onclick = () => returnUser(camera);
 
 enterBuilding(camera);
