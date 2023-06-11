@@ -3,7 +3,10 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as TWEEN from "@tweenjs/tween.js";
 import { printWalls } from "./walls.js";
 import { printPaintings } from "./paintings.js";
+import { enterBuilding } from "./tweens";
+import { printInfo, selectSample } from "./domhandlings";
 
+// scene scaffolding -- renderer,scene,camera,lights
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(innerWidth, innerHeight);
 renderer.shadowMap.enabled = true;
@@ -22,44 +25,22 @@ let startingCameraPOS = [395, 345, 685];
 camera.position.set(...startingCameraPOS);
 scene.add(camera);
 
-const spotLight = new THREE.AmbientLight();
-spotLight.position.set(0, 170, 35);
+const ambientLight = new THREE.AmbientLight();
+ambientLight.position.set(0, 170, 35);
+scene.add(ambientLight);
+
+const spotLight = new THREE.SpotLight("white", 0.3);
+let spotHelper = new THREE.SpotLightHelper(spotLight);
+spotLight.position.set(175, 105, 5);
+
 scene.add(spotLight);
-// spotLight.castShadow = true;
-
-const spot2Light = new THREE.SpotLight("white", 0.3);
-let spot2Helper = new THREE.SpotLightHelper(spot2Light);
-spot2Light.position.set(175, 105, 5);
-// spot2Light.rotation.x = -0.5;
-// spot2Light.rotation.y = -2.5;
-// spot2Light.rotation.z = 5;
-scene.add(spot2Light);
-// scene.add(spot2Helper);
-spot2Light.castShadow = true;
-
-const directLight = new THREE.DirectionalLight("white");
-let directHelper = new THREE.DirectionalLightHelper(directLight);
-
-directLight.position.set(0, 100, 0);
-directLight.castShadow = true;
-
-// scene.add(directLight);
-// scene.add(directHelper);
+spotLight.castShadow = true;
 
 printWalls(scene);
 printPaintings(scene);
 
-let sphereGeo = new THREE.SphereGeometry(8, 55, 25);
-let sphereMaterial = new THREE.MeshLambertMaterial({ color: "red" });
-let sphere = new THREE.Mesh(sphereGeo, sphereMaterial);
-
-sphere.castShadow = true;
-
-sphere.position.y = 15;
-scene.add(sphere);
-
 let oc = new OrbitControls(camera, renderer.domElement);
-oc.update();
+// oc.update();
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -74,6 +55,7 @@ function onPointerMove(event) {
 
 onmousemove = (e) => onPointerMove(e);
 
+let currFocusObject;
 function animation() {
   renderer.render(scene, camera);
   TWEEN.update();
@@ -83,8 +65,11 @@ function animation() {
 
   if (intersects.length) {
     if (intersects[0].object.userData.title) {
-      console.log("hovering over " + intersects[0].object.userData.name);
+      // console.log("hovering over " + intersects[0].object.userData.title);
       printInfo(intersects[0].object.userData);
+      currFocusObject = intersects[0].object;
+    } else {
+      currFocusObject = undefined;
     }
   }
 
@@ -97,45 +82,6 @@ onresize = (e) => {
   renderer.setSize(innerWidth, innerHeight);
 };
 
-function enterBuilding() {
-  let cameraStart = { x: 395, y: 345, z: 685 };
-  new TWEEN.Tween(cameraStart)
-    .to({ x: 125, y: 25, z: 150 }, 2000)
-    .start()
-    .onUpdate(() => {
-      camera.position.x = cameraStart.x;
-      camera.position.y = cameraStart.y;
-      camera.position.z = cameraStart.z;
-    })
-    .onComplete(() => {
-      rotateUser();
-      console.log(camera.rotation);
-    });
-}
+onclick = () => selectSample(camera, currFocusObject);
 
-function rotateUser() {
-  let cameraStart = { x: -0.46, y: 0.47, z: 0.226 };
-  new TWEEN.Tween(cameraStart)
-    .to({ x: -0.05, y: 0.12, z: 0.02 }, 2000)
-    .start()
-    .onUpdate(() => {
-      camera.rotation.x = cameraStart.x;
-      camera.rotation.y = cameraStart.y;
-      camera.rotation.z = cameraStart.z;
-    })
-    .onComplete(() => {
-      //   rotateUser()
-    });
-}
-
-function printInfo(info) {
-  document.querySelector("#title").innerHTML = info.title;
-  document.querySelector("#description").innerHTML = info.description;
-  let featuresHTML = "";
-  info.features.forEach((feature) => {
-    featuresHTML += `<li>${feature}</li>`;
-  });
-  document.querySelector("#features").innerHTML = featuresHTML;
-}
-
-enterBuilding();
+enterBuilding(camera);

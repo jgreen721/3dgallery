@@ -47,6 +47,20 @@ export const printPaintings = async (scene) => {
     painting.userData.builtWith = item.builtWith;
     painting.userData.description = item.description;
     painting.userData.features = item.features;
+    // painting.userData.cameraPOS.x = item.cameraPOS.x;
+    // painting.userData.cameraPOS.y = item.cameraPOS.y;
+    // painting.userData.cameraPOS.z = item.cameraPOS.z;
+    painting.userData.cameraVector = {
+      x: item.cameraPOS.x,
+      y: item.cameraPOS.y,
+      z: item.cameraPOS.z,
+    };
+
+    painting.userData.cameraROT = {
+      x: item.cameraROT.x,
+      y: item.cameraROT.y,
+      z: item.cameraROT.z,
+    };
     frame.position.x = item.pos.x;
     frame.position.y = item.pos.y;
     frame.position.z = item.pos.z;
