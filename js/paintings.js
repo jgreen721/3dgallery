@@ -8,6 +8,14 @@ export const printPaintings = async (scene) => {
   console.log(data);
 
   data.forEach((item) => {
+    const spotLight = new THREE.SpotLight("white");
+    const slHelper = new THREE.SpotLightHelper(spotLight);
+    scene.add(slHelper);
+    spotLight.intensity = 0.23;
+
+    spotLight.position.y = 70;
+    spotLight.position.x = item.pos.x += 1;
+    spotLight.position.z = item.pos.z += 1;
     let boxGeometry = new THREE.BoxGeometry(
       item.size.x + 5,
       item.size.y + 5,
@@ -29,16 +37,19 @@ export const printPaintings = async (scene) => {
       painting.rotation.y = Math.PI * 0.5;
       frame.rotation.y = Math.PI * 0.5;
       imageX = item.pos.x + 2;
+      spotLight.position.x = item.pos.x + 5;
     }
     if (item.rotation == "turnRight") {
       painting.rotation.y = -Math.PI * 0.5;
       frame.rotation.y = -Math.PI * 0.5;
       imageX = item.pos.x - 2;
+      spotLight.position.x = item.pos.x - 5;
     }
 
     if (imageX == item.pos.x) {
       console.log("HUH???");
       imageZ += 2;
+      // spotLight.position.z = item.pos.z - 5;
     }
     painting.position.x = imageX;
     painting.position.y = item.pos.y;
@@ -70,5 +81,7 @@ export const printPaintings = async (scene) => {
     scene.add(painting);
     scene.add(frame);
     console.log("scene added");
+
+    scene.add(spotLight);
   });
 };

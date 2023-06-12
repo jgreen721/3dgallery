@@ -25,10 +25,15 @@ const camera = new THREE.PerspectiveCamera(
   0.1
 );
 let startingCameraPOS = [395, 345, 685];
+// let startingCameraPOS = [125, 25, 150];
 camera.position.set(...startingCameraPOS);
+// camera.rotation.set(-0.05, 1.42, 0.02);
+// camera.rotation.x = 2;
+
 scene.add(camera);
 
 const ambientLight = new THREE.AmbientLight();
+ambientLight.intensity = 0.09;
 ambientLight.position.set(0, 170, 35);
 scene.add(ambientLight);
 
@@ -36,7 +41,7 @@ const spotLight = new THREE.SpotLight("white", 0.3);
 let spotHelper = new THREE.SpotLightHelper(spotLight);
 spotLight.position.set(175, 105, 5);
 
-scene.add(spotLight);
+// scene.add(spotLight);
 spotLight.castShadow = true;
 
 printWalls(scene);
@@ -114,7 +119,19 @@ onresize = (e) => {
 
 console.log(scene.children);
 
-onclick = (e) => {
+// onclick = (e) => {
+//   if (e.target.classList.contains("return-btn")) {
+//     returnUser(camera);
+//   } else if (e.target.classList.contains("compass-btn")) {
+//     changeDir(e.target.getAttribute("data-direction"), camera);
+//   } else {
+//     console.log(currFocusObject);
+//     // moveCameraTo(camera, currFocusObject);
+//     selectSample(camera, currFocusObject);
+//   }
+// };
+
+onmousedown = (e) => {
   if (e.target.classList.contains("return-btn")) {
     returnUser(camera);
   } else if (e.target.classList.contains("compass-btn")) {
